@@ -1,0 +1,148 @@
+{
+  "data": {
+    "rows": 30000,
+    "bad_rate": 0.2212,
+    "train": 21000,
+    "test": 9000,
+    "candidate_features": 15
+  },
+  "scorecard_features": [
+    "delinq_now",
+    "delinq_months_6m",
+    "zero_pay_months_5m",
+    "limit_bal",
+    "pay_ratio_avg_5m",
+    "util_avg_6m",
+    "bill_trend_6m",
+    "paid_to_limit_6m"
+  ],
+  "dropped": {
+    "education_grp": "IV 0.013 < 0.02",
+    "delinq_months_3m": "delinq_now 와 상관 0.83",
+    "delinq_max_6m": "delinq_months_6m 와 상관 0.96",
+    "util_max_6m": "util_avg_6m 와 상관 0.87",
+    "util_now": "util_avg_6m 와 상관 0.83",
+    "idle_months_6m": "계수 부호 반대(다른 피처와 정보 겹침)",
+    "pay_ratio_now": "계수 부호 반대(다른 피처와 정보 겹침)"
+  },
+  "iv": {
+    "delinq_now": 0.8783,
+    "delinq_months_3m": 0.8417,
+    "delinq_months_6m": 0.8267,
+    "delinq_max_6m": 0.7793,
+    "zero_pay_months_5m": 0.4295,
+    "pay_ratio_now": 0.2384,
+    "limit_bal": 0.1959,
+    "pay_ratio_avg_5m": 0.1656,
+    "util_avg_6m": 0.0937,
+    "bill_trend_6m": 0.0763,
+    "util_max_6m": 0.0592,
+    "util_now": 0.0545,
+    "idle_months_6m": 0.0298,
+    "paid_to_limit_6m": 0.0235,
+    "education_grp": 0.0131
+  },
+  "test": {
+    "baseline_delinq_now_only": {
+      "auc": 0.6929,
+      "gini": 0.3858,
+      "ks": 0.3599
+    },
+    "scorecard_prob": {
+      "auc": 0.7568,
+      "gini": 0.5137,
+      "ks": 0.4022,
+      "brier": 0.1395
+    },
+    "scorecard_points": {
+      "auc": 0.757,
+      "gini": 0.5139,
+      "ks": 0.4011
+    },
+    "gbm": {
+      "auc": 0.7821,
+      "gini": 0.5643,
+      "ks": 0.4327,
+      "brier": 0.1347
+    }
+  },
+  "cv_train_5fold_auc": {
+    "scorecard": {
+      "mean": 0.7654,
+      "std": 0.0056
+    },
+    "gbm": {
+      "mean": 0.7869,
+      "std": 0.0083
+    }
+  },
+  "approve_80": {
+    "scorecard": {
+      "approve_rate": 0.8033,
+      "bad_rate_approved": 0.142,
+      "bad_rate_rejected": 0.5446
+    },
+    "gbm": {
+      "approve_rate": 0.8013,
+      "bad_rate_approved": 0.1366,
+      "bad_rate_rejected": 0.5626
+    },
+    "cut_score": 508.0
+  },
+  "bands_monotonic": true,
+  "psi_score_train_vs_test": 0.0003,
+  "psi_features_max": 0.002,
+  "reasons_rejected": {
+    "n": 1770,
+    "first": {
+      "이번 달 연체": 1484,
+      "한도 대비 납부액": 181,
+      "카드 한도": 82,
+      "청구가 있는데 0원 낸 달 수": 23
+    },
+    "in_top3": {
+      "이번 달 연체": 1653,
+      "카드 한도": 1249,
+      "6개월 중 연체한 달 수": 1174,
+      "한도 대비 납부액": 667,
+      "청구가 있는데 0원 낸 달 수": 565,
+      "청구액 증가 추세": 2
+    }
+  },
+  "fairness_at_approve_80": {
+    "sex_ko": {
+      "남": {
+        "n": 3563,
+        "approve_rate": 0.7929,
+        "bad_rate_all": 0.2386,
+        "bad_rate_approved": 0.1579
+      },
+      "여": {
+        "n": 5437,
+        "approve_rate": 0.8102,
+        "bad_rate_all": 0.2099,
+        "bad_rate_approved": 0.1319
+      }
+    },
+    "age_band": {
+      "~29": {
+        "n": 2882,
+        "approve_rate": 0.7734,
+        "bad_rate_all": 0.2245,
+        "bad_rate_approved": 0.1368
+      },
+      "30~44": {
+        "n": 4483,
+        "approve_rate": 0.8262,
+        "bad_rate_all": 0.2061,
+        "bad_rate_approved": 0.1355
+      },
+      "45~": {
+        "n": 1635,
+        "approve_rate": 0.7933,
+        "bad_rate_all": 0.2569,
+        "bad_rate_approved": 0.1696
+      }
+    }
+  }
+}

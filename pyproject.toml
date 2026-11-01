@@ -1,0 +1,15 @@
+[project]
+name = "tw-credit-scorecard"
+version = "0.1.0"
+description = "대만 신용카드 공개 데이터로 만든 신용평가 스코어카드(WoE 로지스틱) vs 그래디언트 부스팅 비교"
+requires-python = ">=3.11"
+dependencies = [
+  "pandas>=2.2",
+  "duckdb>=1.1",
+  "scikit-learn>=1.5",
+  "xlrd>=2.0",
+  "matplotlib>=3.9",
+]
+
+[tool.uv]
+package = false
