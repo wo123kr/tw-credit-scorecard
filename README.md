@@ -119,3 +119,12 @@ uv run python -m unittest discover -s tests      # 시험 10개
 ## 만든 방식
 
 Claude Code 로 구현했습니다. 버그 하나를 시험으로 막아 두었습니다: DuckDB 의 `least()` 가 NULL 을 무시해서, 직전 청구가 0원인 고객의 납부 비율이 「전액 납부(1.0)」로 들어가던 것을 `CASE` 로 고치고 시험(`test_pay_ratio_null_when_no_previous_bill`)을 붙였습니다.
+
+## 커밋 번호 안내
+
+공개 전에 커밋 작성자 표기만 바꿨습니다(파일 내용 · tree 는 그대로). 그 전에 다른 문서에 적힌 커밋 번호는 아래처럼 읽습니다.
+
+| 전 | 지금 |
+|---|---|
+| 0b531eb | 1e6cb63 |
+| 94ac0bf | 51ee0e8 |
