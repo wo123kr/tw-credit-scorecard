@@ -101,5 +101,22 @@ class FeatureSqlTest(unittest.TestCase):
         self.assertAlmostEqual(f["pay_ratio_now"], 0.5)
 
 
+class ExtraTest(unittest.TestCase):
+    def test_approve_top_takes_lowest_risk_share(self):
+        from extra import approve_top
+        risk = np.array([0.9, 0.1, 0.5, 0.3, 0.7])
+        self.assertEqual(approve_top(risk, 0.6).tolist(), [False, True, True, True, False])
+        self.assertEqual(int(approve_top(risk, 0.8).sum()), 4)
+
+    def test_directions_follow_rank_correlation(self):
+        from extra import directions
+        y = pd.Series([0, 0, 1, 1])
+        df = pd.DataFrame({"up": [1, 2, 3, 4], "down": [4, 3, 2, 1]})
+        self.assertEqual(directions(df, y, ["up", "down"]), [1, -1])
+        # 학력 구분은 4 = 기타라 순서가 없어 제약을 걸지 않는다(검토 지적)
+        edu = pd.DataFrame({"education_grp": [1, 2, 3, 4]})
+        self.assertEqual(directions(edu, y, ["education_grp"]), [0])
+
+
 if __name__ == "__main__":
     unittest.main()

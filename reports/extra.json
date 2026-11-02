@@ -1,0 +1,294 @@
+{
+  "note": "run.py 와 같은 분할(70:30, seed 42) · 같은 설정. 모형 선택은 바꾸지 않은 사후 분석.",
+  "monotonic_directions": {
+    "limit_bal": -1,
+    "education_grp": 0,
+    "delinq_now": 1,
+    "delinq_max_6m": 1,
+    "delinq_months_6m": 1,
+    "delinq_months_3m": 1,
+    "idle_months_6m": -1,
+    "util_now": 1,
+    "util_avg_6m": 1,
+    "util_max_6m": 1,
+    "bill_trend_6m": -1,
+    "pay_ratio_avg_5m": -1,
+    "pay_ratio_now": -1,
+    "zero_pay_months_5m": 1,
+    "paid_to_limit_6m": -1
+  },
+  "ablation": {
+    "scorecard_8 (기존)": {
+      "cv5_auc": {
+        "mean": 0.7654,
+        "std": 0.0056
+      },
+      "test": {
+        "auc": 0.7568,
+        "gini": 0.5137,
+        "ks": 0.4022,
+        "brier": 0.1395
+      }
+    },
+    "woe_logistic_15": {
+      "cv5_auc": {
+        "mean": 0.768,
+        "std": 0.0092
+      },
+      "test": {
+        "auc": 0.7573,
+        "gini": 0.5146,
+        "ks": 0.4034,
+        "brier": 0.1394
+      }
+    },
+    "gbm_8 (스코어카드와 같은 피처)": {
+      "cv5_auc": {
+        "mean": 0.7831,
+        "std": 0.0075
+      },
+      "test": {
+        "auc": 0.7783,
+        "gini": 0.5567,
+        "ks": 0.4264,
+        "brier": 0.1354
+      }
+    },
+    "gbm_15 (기존)": {
+      "cv5_auc": {
+        "mean": 0.7869,
+        "std": 0.0083
+      },
+      "test": {
+        "auc": 0.7821,
+        "gini": 0.5643,
+        "ks": 0.4327,
+        "brier": 0.1347
+      }
+    },
+    "gbm_15_monotonic": {
+      "cv5_auc": {
+        "mean": 0.7845,
+        "std": 0.0093
+      },
+      "test": {
+        "auc": 0.7769,
+        "gini": 0.5539,
+        "ks": 0.4244,
+        "brier": 0.1355
+      }
+    },
+    "gbm_8_monotonic": {
+      "cv5_auc": {
+        "mean": 0.7813,
+        "std": 0.0092
+      },
+      "test": {
+        "auc": 0.7714,
+        "gini": 0.5428,
+        "ks": 0.4181,
+        "brier": 0.1361
+      }
+    }
+  },
+  "calibration": {
+    "scorecard_deciles": [
+      {
+        "decile": 1,
+        "pred": 0.0739,
+        "actual": 0.0622
+      },
+      {
+        "decile": 2,
+        "pred": 0.0892,
+        "actual": 0.0944
+      },
+      {
+        "decile": 3,
+        "pred": 0.0994,
+        "actual": 0.1078
+      },
+      {
+        "decile": 4,
+        "pred": 0.1126,
+        "actual": 0.1144
+      },
+      {
+        "decile": 5,
+        "pred": 0.1271,
+        "actual": 0.1367
+      },
+      {
+        "decile": 6,
+        "pred": 0.1409,
+        "actual": 0.1667
+      },
+      {
+        "decile": 7,
+        "pred": 0.1732,
+        "actual": 0.1967
+      },
+      {
+        "decile": 8,
+        "pred": 0.2608,
+        "actual": 0.2456
+      },
+      {
+        "decile": 9,
+        "pred": 0.4334,
+        "actual": 0.4067
+      },
+      {
+        "decile": 10,
+        "pred": 0.6892,
+        "actual": 0.6811
+      }
+    ],
+    "scorecard_mean_pred_vs_actual": [
+      0.22,
+      0.2212
+    ],
+    "max_abs_gap_pp": 2.7
+  },
+  "approval_curve_bad_rate": {
+    "50%": {
+      "scorecard": 0.1031,
+      "gbm": 0.0904
+    },
+    "60%": {
+      "scorecard": 0.1137,
+      "gbm": 0.1031
+    },
+    "70%": {
+      "scorecard": 0.1256,
+      "gbm": 0.1167
+    },
+    "80%": {
+      "scorecard": 0.1406,
+      "gbm": 0.1361
+    },
+    "90%": {
+      "scorecard": 0.1701,
+      "gbm": 0.1694
+    }
+  },
+  "swap_set_at_80": {
+    "approve_share": 0.8,
+    "both_approve": {
+      "n": 6970,
+      "bad_rate": 0.1306
+    },
+    "card_only (스코어카드만 승인)": {
+      "n": 230,
+      "bad_rate": 0.4435
+    },
+    "gbm_only (부스팅만 승인)": {
+      "n": 230,
+      "bad_rate": 0.3043
+    },
+    "both_reject": {
+      "n": 1570,
+      "bad_rate": 0.579
+    }
+  },
+  "group_calibration": {
+    "cut_score": 508.0,
+    "approve_rate": 0.8033,
+    "sex_ko": {
+      "bad_rate_within_score_quintile": {
+        "1(낮음)": {
+          "남": 0.5459,
+          "여": 0.5377
+        },
+        "2": {
+          "남": 0.2535,
+          "여": 0.2038
+        },
+        "3": {
+          "남": 0.1655,
+          "여": 0.1418
+        },
+        "4": {
+          "남": 0.1208,
+          "여": 0.1087
+        },
+        "5(높음)": {
+          "남": 0.0857,
+          "여": 0.0717
+        }
+      },
+      "approved_pred_vs_actual": {
+        "남": {
+          "n": 2825,
+          "pred": 0.136,
+          "actual": 0.1579,
+          "gap_pp": 2.2
+        },
+        "여": {
+          "n": 4405,
+          "pred": 0.1351,
+          "actual": 0.1319,
+          "gap_pp": -0.3
+        }
+      },
+      "approved_mean_score": {
+        "남": 542.8,
+        "여": 542.9
+      }
+    },
+    "age_band": {
+      "bad_rate_within_score_quintile": {
+        "1(낮음)": {
+          "~29": 0.5219,
+          "30~44": 0.5386,
+          "45~": 0.5838
+        },
+        "2": {
+          "~29": 0.1969,
+          "30~44": 0.2335,
+          "45~": 0.2508
+        },
+        "3": {
+          "~29": 0.1525,
+          "30~44": 0.1444,
+          "45~": 0.1657
+        },
+        "4": {
+          "~29": 0.1015,
+          "30~44": 0.1071,
+          "45~": 0.1544
+        },
+        "5(높음)": {
+          "~29": 0.0602,
+          "30~44": 0.0758,
+          "45~": 0.1043
+        }
+      },
+      "approved_pred_vs_actual": {
+        "~29": {
+          "n": 2229,
+          "pred": 0.142,
+          "actual": 0.1368,
+          "gap_pp": -0.5
+        },
+        "30~44": {
+          "n": 3704,
+          "pred": 0.1312,
+          "actual": 0.1355,
+          "gap_pp": 0.4
+        },
+        "45~": {
+          "n": 1297,
+          "pred": 0.1362,
+          "actual": 0.1696,
+          "gap_pp": 3.3
+        }
+      },
+      "approved_mean_score": {
+        "~29": 541.1,
+        "30~44": 544.0,
+        "45~": 542.7
+      }
+    }
+  }
+}
