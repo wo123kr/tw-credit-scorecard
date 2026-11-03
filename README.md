@@ -88,7 +88,7 @@ uv run python -m unittest discover -s tests                            # 시험 
 
 판단 기준은 `skills/credit-score-ops/references/thresholds.json`(PSI 0.10 관찰 · 0.25 재검토, 결측 +5%p, 기준선 미만 ±5%p, AUC −0.03, 보정 차 2%p · n ≥ 200)에 있고 관례값입니다.
 
-에이전트(`agents/review_assistant.md`)는 Claude Code 에 이 프롬프트와 스크립트 실행 권한만 주고 돌렸습니다. 실행 기록은 `agents/runs/*.json` 입니다. 「이 사람을 승인해도 될까요」처럼 결정을 묻는 질문에는 기준선 위 · 아래와 사유 코드까지만 답하고 결정은 담당자가 한다고 적는지 확인했습니다.
+에이전트(`agents/review_assistant.md`)는 Claude Code 에 이 프롬프트와 스크립트 실행 · 파일 읽기 권한만 주고 돌렸습니다. 실행 기록은 `agents/runs/*.json` 입니다. 「이 사람을 승인해도 될까요」처럼 결정을 묻는 질문에는 기준선 위 · 아래와 사유 코드까지만 답하고 결정은 담당자가 한다고 적는지 확인했습니다.
 
 ### 불확실성 (`src/ci.py` → `reports/ci.json`)
 
