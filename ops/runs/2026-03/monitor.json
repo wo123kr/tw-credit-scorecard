@@ -1,0 +1,169 @@
+{
+  "batch": "applicants_2026-03.csv",
+  "rows": 3000,
+  "unscorable": 900,
+  "psi_score": 0.0055,
+  "psi_score_level": "안정",
+  "features": {
+    "delinq_now": {
+      "psi": 0.0011,
+      "missing_ref": 0.0,
+      "missing_now": 0.0
+    },
+    "delinq_months_6m": {
+      "psi": 0.001,
+      "missing_ref": 0.0,
+      "missing_now": 0.0
+    },
+    "zero_pay_months_5m": {
+      "psi": 0.0001,
+      "missing_ref": 0.0,
+      "missing_now": 0.0
+    },
+    "limit_bal": {
+      "psi": 0.0032,
+      "missing_ref": 0.0,
+      "missing_now": 0.0
+    },
+    "pay_ratio_avg_5m": {
+      "psi": 0.0035,
+      "missing_ref": 0.0462,
+      "missing_now": 0.05
+    },
+    "util_avg_6m": {
+      "psi": 0.0015,
+      "missing_ref": 0.0,
+      "missing_now": 0.0
+    },
+    "bill_trend_6m": {
+      "psi": 0.0042,
+      "missing_ref": 0.0,
+      "missing_now": 0.0
+    },
+    "paid_to_limit_6m": {
+      "psi": 0.0026,
+      "missing_ref": 0.0,
+      "missing_now": 0.0
+    }
+  },
+  "below_cut_share": 0.1938,
+  "reason_top": {
+    "한도 대비 납부액": 851,
+    "카드 한도": 745,
+    "이번 달 연체": 403,
+    "청구가 있는데 0원 낸 달 수": 48,
+    "6개월 중 연체한 달 수": 28
+  },
+  "performance": {
+    "auc": 0.7651,
+    "ks": 0.4303,
+    "bad_rate": 0.221
+  },
+  "bands": [
+    {
+      "band": 1,
+      "n": 207,
+      "bad_rate": 0.7005,
+      "bad_rate_train": 0.6943
+    },
+    {
+      "band": 2,
+      "n": 200,
+      "bad_rate": 0.42,
+      "bad_rate_train": 0.4348
+    },
+    {
+      "band": 3,
+      "n": 186,
+      "bad_rate": 0.2634,
+      "bad_rate_train": 0.2495
+    },
+    {
+      "band": 4,
+      "n": 224,
+      "bad_rate": 0.192,
+      "bad_rate_train": 0.1886
+    },
+    {
+      "band": 5,
+      "n": 190,
+      "bad_rate": 0.1579,
+      "bad_rate_train": 0.1619
+    },
+    {
+      "band": 6,
+      "n": 191,
+      "bad_rate": 0.1257,
+      "bad_rate_train": 0.1257
+    },
+    {
+      "band": 7,
+      "n": 272,
+      "bad_rate": 0.1324,
+      "bad_rate_train": 0.1114
+    },
+    {
+      "band": 8,
+      "n": 208,
+      "bad_rate": 0.0913,
+      "bad_rate_train": 0.0938
+    },
+    {
+      "band": 9,
+      "n": 175,
+      "bad_rate": 0.1029,
+      "bad_rate_train": 0.0843
+    },
+    {
+      "band": 10,
+      "n": 247,
+      "bad_rate": 0.0648,
+      "bad_rate_train": 0.0676
+    }
+  ],
+  "groups": {
+    "sex_ko:남": {
+      "n": 808,
+      "approve_rate": 0.802,
+      "bad_rate_approved": 0.1528,
+      "pred_bad_approved": 0.1333,
+      "calibration_gap_pp": 1.95
+    },
+    "sex_ko:여": {
+      "n": 1292,
+      "approve_rate": 0.8088,
+      "bad_rate_approved": 0.1301,
+      "pred_bad_approved": 0.135,
+      "calibration_gap_pp": -0.49
+    },
+    "age_band:~29": {
+      "n": 681,
+      "approve_rate": 0.7841,
+      "bad_rate_approved": 0.1404,
+      "pred_bad_approved": 0.1429,
+      "calibration_gap_pp": -0.24
+    },
+    "age_band:30~44": {
+      "n": 1061,
+      "approve_rate": 0.8228,
+      "bad_rate_approved": 0.1317,
+      "pred_bad_approved": 0.1295,
+      "calibration_gap_pp": 0.22
+    },
+    "age_band:45~": {
+      "n": 358,
+      "approve_rate": 0.7989,
+      "bad_rate_approved": 0.1573,
+      "pred_bad_approved": 0.1332,
+      "calibration_gap_pp": 2.42
+    }
+  },
+  "alerts": [
+    "점수 불가 900건(30.0%): 학습 때 결측이 없던 피처에 결측이 들어옴. 수집 · 적재를 먼저 확인",
+    "집단 age_band=45~ 승인자 실제 연체율이 예측보다 +2.4%p. 집단별 보정 점검 필요"
+  ],
+  "notes": [
+    "구간별 연체율은 학습 데이터 구간과 나란히 둠. 구간마다 표본이 작으면 흔들림",
+    "성별 · 나이는 모형 피처가 아니며 사후 점검에만 씀"
+  ]
+}

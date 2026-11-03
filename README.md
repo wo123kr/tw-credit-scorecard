@@ -64,6 +64,44 @@ uv run python -m unittest discover -s tests      # 시험 10개
 
 이번 달 연체 0.878 · 3개월 중 연체한 달 수 0.842 · 6개월 중 연체한 달 수 0.827 · 6개월 최장 연체 0.779 · 0원 낸 달 수 0.430. 연체 계열은 서로 상관이 0.8을 넘어 IV 가 큰 쪽만 남겼습니다(뺀 이유는 `reports/results.json` 의 `dropped`).
 
+## 운영 점검 스킬과 심사 분석가 보조 에이전트 (`skills/credit-score-ops/`, `agents/`)
+
+모형을 만든 뒤의 일을 붙였습니다. 새 신청 배치에 점수와 사유 코드를 매기고, 점수 · 피처 분포 이동(PSI) · 결측 · 기준선 미만 비중 · (라벨이 있으면) 구간별 연체율과 AUC · (보호 속성이 있으면) 집단별 보정을 점검해 보고서를 냅니다. 숫자는 전부 스크립트가 계산하고, 에이전트는 그 숫자를 인용해 설명과 권고만 씁니다. 승인 · 거절 결정은 내리지 않습니다.
+
+```bash
+uv run python skills/credit-score-ops/scripts/fit_reference.py        # 같은 분할 · 시드로 다시 학습해 참조 저장(ops/reference/)
+uv run python skills/credit-score-ops/scripts/make_mock_batches.py    # 모의 배치 3개(ops/batches/)
+uv run python skills/credit-score-ops/scripts/score_batch.py --batch ops/batches/applicants_2026-02.csv --out ops/runs/2026-02
+uv run python skills/credit-score-ops/scripts/monitor.py --batch ops/batches/applicants_2026-02.csv --scores ops/runs/2026-02/scores.csv --out ops/runs/2026-02
+uv run python skills/credit-score-ops/scripts/explain.py --scores ops/runs/2026-01/scores.csv --id 19454
+uv run python src/ci.py                                                # AUC · KS 부트스트랩 95% 구간 → reports/ci.json
+uv run python -m unittest discover -s tests                            # 시험 16개(스킬 6개 포함)
+```
+
+데이터가 한 시점뿐이라 시간에 따른 분포 이동은 실제로 볼 수 없습니다. 그래서 검증 데이터 9,000명을 나눠 모의 배치 3개를 만들었습니다(모의라고 밝힙니다).
+
+| 배치 | 만든 방식 | 점검 결과(`ops/runs/*/report.md`) |
+|---|---|---|
+| 2026-01 | 무작위 3,000명 | 점수 PSI 0.003(안정) · 기준선 미만 19.7% · 경고: 29세 이하 승인자 실제 연체율이 예측보다 +2.5%p |
+| 2026-02 | 이번 달 연체 · 한도 소진율 높은 쪽으로 치우친 표본 | 점수 PSI 0.182(관찰) · 원인 피처 3개(이번 달 연체 0.18 · 6개월 연체 달 수 0.14 · 한도 소진율 0.11) · 기준선 미만 36.7% · 남성 +2.7%p · 45세 이상 +4.9%p |
+| 2026-03 | 카드 한도 30% 결측 | 학습 때 결측이 없던 피처라 900건 「점수 불가」 · 수집 확인 경고. 나머지는 안정 |
+
+판단 기준은 `skills/credit-score-ops/references/thresholds.json`(PSI 0.10 관찰 · 0.25 재검토, 결측 +5%p, 기준선 미만 ±5%p, AUC −0.03, 보정 차 2%p · n ≥ 200)에 있고 관례값입니다.
+
+에이전트(`agents/review_assistant.md`)는 Claude Code 에 이 프롬프트와 스크립트 실행 권한만 주고 돌렸습니다. 실행 기록은 `agents/runs/*.json` 입니다. 「이 사람을 승인해도 될까요」처럼 결정을 묻는 질문에는 기준선 위 · 아래와 사유 코드까지만 답하고 결정은 담당자가 한다고 적는지 확인했습니다.
+
+### 불확실성 (`src/ci.py` → `reports/ci.json`)
+
+검증 데이터 9,000명에서 부트스트랩 1,000회. 분할은 70:30 층화(seed 42)이고 구간화 · 학습은 학습 데이터에서만, 교차 검증은 학습 데이터 안 5겹입니다. PSI(학습 vs 검증) 0.0003 은 같은 시점의 두 조각이라 분포 안정성의 상한선이 아니라 분할이 치우치지 않았다는 확인입니다.
+
+| 모형 | AUC (95% 구간) | KS (95% 구간) |
+|---|---|---|
+| 기준선: 이번 달 연체 하나만 | 0.693 (0.681 ~ 0.706) | 0.360 (0.338 ~ 0.385) |
+| WoE 로지스틱 스코어카드(8개) | 0.757 (0.744 ~ 0.769) | 0.402 (0.381 ~ 0.427) |
+| 그래디언트 부스팅(15개) | 0.782 (0.770 ~ 0.794) | 0.433 (0.411 ~ 0.458) |
+
+부스팅 − 스코어카드 AUC 차이는 같은 표본으로 0.019 ~ 0.032(95% 구간)라 0 을 포함하지 않습니다. 차이는 작지만 우연이 아니고, 그래도 설명 가능한 점수를 고른 이유는 위에 적은 대로입니다.
+
 ## 추가 분석 (`src/extra.py` → `reports/extra.json`)
 
 위 결과를 보고 생긴 질문을 같은 분할 · 같은 설정으로 확인했습니다. 모형 선택은 바꾸지 않은 사후 분석입니다. 교차 검증은 학습 데이터 5겹입니다.

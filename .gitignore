@@ -4,3 +4,4 @@ data/raw/
 data/*.duckdb
 *.pyc
 .DS_Store
+ops/runs/_test/

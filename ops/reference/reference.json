@@ -1,0 +1,119 @@
+{
+  "features": [
+    "delinq_now",
+    "delinq_months_6m",
+    "zero_pay_months_5m",
+    "limit_bal",
+    "pay_ratio_avg_5m",
+    "util_avg_6m",
+    "bill_trend_6m",
+    "paid_to_limit_6m"
+  ],
+  "cut_score": 508.0,
+  "train_rows": 21000,
+  "train_bad_rate": 0.2211904761904762,
+  "band_edges": [
+    435.0,
+    480.0,
+    508.0,
+    526.0,
+    537.0,
+    541.0,
+    544.0,
+    549.0,
+    553.0,
+    556.0
+  ],
+  "train_bands": [
+    {
+      "band": 1,
+      "n": 2100,
+      "bad": 1458,
+      "score_min": 435.0,
+      "score_max": 480.0,
+      "bad_rate": 0.6943,
+      "cum_bad_share": 0.3139
+    },
+    {
+      "band": 2,
+      "n": 2100,
+      "bad": 913,
+      "score_min": 480.0,
+      "score_max": 508.0,
+      "bad_rate": 0.4348,
+      "cum_bad_share": 0.5104
+    },
+    {
+      "band": 3,
+      "n": 2100,
+      "bad": 524,
+      "score_min": 508.0,
+      "score_max": 526.0,
+      "bad_rate": 0.2495,
+      "cum_bad_share": 0.6233
+    },
+    {
+      "band": 4,
+      "n": 2100,
+      "bad": 396,
+      "score_min": 526.0,
+      "score_max": 537.0,
+      "bad_rate": 0.1886,
+      "cum_bad_share": 0.7085
+    },
+    {
+      "band": 5,
+      "n": 2100,
+      "bad": 340,
+      "score_min": 537.0,
+      "score_max": 541.0,
+      "bad_rate": 0.1619,
+      "cum_bad_share": 0.7817
+    },
+    {
+      "band": 6,
+      "n": 2100,
+      "bad": 264,
+      "score_min": 541.0,
+      "score_max": 544.0,
+      "bad_rate": 0.1257,
+      "cum_bad_share": 0.8385
+    },
+    {
+      "band": 7,
+      "n": 2100,
+      "bad": 234,
+      "score_min": 544.0,
+      "score_max": 549.0,
+      "bad_rate": 0.1114,
+      "cum_bad_share": 0.8889
+    },
+    {
+      "band": 8,
+      "n": 2100,
+      "bad": 197,
+      "score_min": 549.0,
+      "score_max": 553.0,
+      "bad_rate": 0.0938,
+      "cum_bad_share": 0.9313
+    },
+    {
+      "band": 9,
+      "n": 2100,
+      "bad": 177,
+      "score_min": 553.0,
+      "score_max": 556.0,
+      "bad_rate": 0.0843,
+      "cum_bad_share": 0.9694
+    },
+    {
+      "band": 10,
+      "n": 2100,
+      "bad": 142,
+      "score_min": 556.0,
+      "score_max": 574.0,
+      "bad_rate": 0.0676,
+      "cum_bad_share": 1.0
+    }
+  ]
+}

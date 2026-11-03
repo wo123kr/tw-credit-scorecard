@@ -1,0 +1,9 @@
+{
+  "psi_watch": 0.10,
+  "psi_review": 0.25,
+  "missing_rate_jump": 0.05,
+  "calibration_gap_pp": 2.0,
+  "min_group_n": 200,
+  "below_cut_share_tolerance": 0.05,
+  "auc_drop_review": 0.03
+}
